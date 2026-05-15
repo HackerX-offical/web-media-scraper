@@ -53,8 +53,11 @@ class MediaScraper:
             else:
                 folder_name = f"media-{counter}"
             
+            # Check if either the folder or the markdown file exists
             folder_path = Path(folder_name)
-            if not folder_path.exists():
+            markdown_path = Path(f"{folder_name}_links.md")
+            
+            if not folder_path.exists() and not markdown_path.exists():
                 return folder_path
             counter += 1
     
