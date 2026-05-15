@@ -25,8 +25,10 @@ class MediaScraper:
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
         })
         self.scraper = cloudscraper.create_scraper()
-        self.media_folder = Path("media")
-        self.markdown_file = Path("media_links.md")
+        
+        # Find next available folder name (media, media-1, media-2, etc.)
+        self.media_folder = self.get_next_available_folder()
+        self.markdown_file = Path(f"{self.media_folder}_links.md")
         
         # Supported media extensions
         self.image_extensions = {'.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp', '.svg', '.ico', '.tiff', '.tif'}
@@ -42,6 +44,20 @@ class MediaScraper:
             'chevron', 'caret', 'plus', 'minus', 'check', 'cross', 'x-mark', 'hamburger'
         }
         
+    def get_next_available_folder(self) -> Path:
+        """Find the next available folder name (media, media-1, media-2, etc.)"""
+        counter = 0
+        while True:
+            if counter == 0:
+                folder_name = "media"
+            else:
+                folder_name = f"media-{counter}"
+            
+            folder_path = Path(folder_name)
+            if not folder_path.exists():
+                return folder_path
+            counter += 1
+    
     def create_media_folder(self):
         """Create media folder if it doesn't exist"""
         self.media_folder.mkdir(exist_ok=True)
