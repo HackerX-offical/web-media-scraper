@@ -1,40 +1,48 @@
-# Web Media Scraper
+# web-media-scraper
 
-A Python tool to scrape images and videos from any URL and generate a markdown file with media links. Features smart filtering to exclude UI elements and social media icons.
+Python scraper that downloads page media and builds a markdown index.
 
-**Project**: [web-media-scraper](https://github.com/HackerX-offical/web-media-scraper)  
-**Organization**: [HackerX](https://github.com/HackerX-offical)
+## Why this exists
 
-## Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/HackerX-offical/web-media-scraper.git
-cd web-media-scraper
-
-# Run setup (creates virtual environment and installs dependencies)
-./setup.sh
-```
-
-## Usage
-
-```bash
-# Run the scraper
-./run.sh
-```
-
-The script will prompt for a URL and automatically download all media to the `media/` folder, generating `media_links.md` with organized links.
+Authorized web archiving needs filtered image/video extraction without UI chrome. This tool outputs assets plus `media_links.md`.
 
 ## Features
 
-- **Smart Filtering**: Excludes social media icons and UI elements
-- **Cloudflare Support**: Bypasses protection automatically
-- **Multiple Sources**: Images, videos, background images, meta tags
-- **Professional Output**: Clean markdown with statistics
+- Cloudflare-aware fetching
+- Filters social icons and chrome
+- `setup.sh` / `run.sh` wrappers
+
+## Install
+
+```bash
+git clone https://github.com/HackerX-offical/web-media-scraper.git
+cd web-media-scraper
+./setup.sh
+```
+
+## Quick start
+
+```bash
+./run.sh
+```
+
+## Output
+
+`media/` downloads and `media_links.md` with statistics.
+
+## Develop
+
+```bash
+pytest tests -q
+```
+
+## Architecture
+
+See [ARCHITECTURE.md](./ARCHITECTURE.md) for module layout and extension points.
 
 ## Ethics
 
-Use only on systems and content you are **authorized** to access. See [SECURITY.md](./SECURITY.md).
+Use only on systems and content you are **authorized** to test. See [SECURITY.md](./SECURITY.md).
 
 ## License
 
