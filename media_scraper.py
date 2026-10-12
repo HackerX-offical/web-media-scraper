@@ -16,6 +16,11 @@ from typing import List, Set, Tuple
 from bs4 import BeautifulSoup
 import cloudscraper
 
+from web_media.filters import should_exclude_url as _should_exclude_url
+from web_media.paths import next_available_media_folder
+from web_media.url_utils import is_media_url as _is_media_url
+from web_media.url_utils import normalize_media_url
+
 class MediaScraper:
     def __init__(self, base_url: str):
         self.base_url = base_url
@@ -27,7 +32,7 @@ class MediaScraper:
         self.scraper = cloudscraper.create_scraper()
         
         # Find next available folder name (media, media-1, media-2, etc.)
-        self.media_folder = self.get_next_available_folder()
+        self.media_folder = next_available_media_folder()
         self.markdown_file = Path(f"{self.media_folder}_links.md")
         
         # Supported media extensions
@@ -44,23 +49,6 @@ class MediaScraper:
             'chevron', 'caret', 'plus', 'minus', 'check', 'cross', 'x-mark', 'hamburger'
         }
         
-    def get_next_available_folder(self) -> Path:
-        """Find the next available folder name (media, media-1, media-2, etc.)"""
-        counter = 0
-        while True:
-            if counter == 0:
-                folder_name = "media"
-            else:
-                folder_name = f"media-{counter}"
-            
-            # Check if either the folder or the markdown file exists
-            folder_path = Path(folder_name)
-            markdown_path = Path(f"{folder_name}_links.md")
-            
-            if not folder_path.exists() and not markdown_path.exists():
-                return folder_path
-            counter += 1
-    
     def create_media_folder(self):
         """Create media folder if it doesn't exist"""
         self.media_folder.mkdir(exist_ok=True)
@@ -154,48 +142,13 @@ class MediaScraper:
         return images, videos
         
     def normalize_url(self, url: str) -> str:
-        """Convert relative URLs to absolute URLs"""
-        if not url or url.startswith(('data:', 'blob:', 'javascript:')):
-            return ""
-            
-        # Remove fragments and query parameters for cleaner URLs
-        url = url.split('#')[0]
-        
-        # Convert relative to absolute
-        if not url.startswith(('http://', 'https://')):
-            url = urljoin(self.base_url, url)
-            
-        return url
-        
+        return normalize_media_url(url, self.base_url)
+
     def is_media_url(self, url: str) -> bool:
-        """Check if URL points to a media file"""
-        if not url:
-            return False
-            
-        parsed = urlparse(url)
-        path = parsed.path.lower()
-        
-        # Check file extensions
-        for ext in self.image_extensions | self.video_extensions:
-            if path.endswith(ext):
-                return True
-                
-        # Check common media patterns
-        media_patterns = [
-            r'/image/', r'/img/', r'/photo/', r'/picture/',
-            r'/video/', r'/watch/', r'/stream/', r'/media/',
-            r'cloudflare', r'cdn', r'assets'
-        ]
-        
-        for pattern in media_patterns:
-            if pattern in path.lower() or pattern in url.lower():
-                return True
-                
-        return False
-        
+        return _is_media_url(url)
+
     def should_exclude_url(self, url: str) -> bool:
-        """Check if URL should be excluded based on patterns"""
-        if not url:
+        if _should_exclude_url(url):
             return True
             
         url_lower = url.lower()
