@@ -32,13 +32,9 @@ The script will prompt for a URL and automatically download all media to the `me
 - **Multiple Sources**: Images, videos, background images, meta tags
 - **Professional Output**: Clean markdown with statistics
 
-## License
+## Ethics
 
-MIT License - see [LICENSE](LICENSE) file for details.
-
----
-
-**HackerX Organization** - Open Source Cybersecurity Tools
+Use only on systems and content you are **authorized** to access. See [SECURITY.md](./SECURITY.md).
 
 ## License
 
