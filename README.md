@@ -39,3 +39,8 @@ MIT License - see [LICENSE](LICENSE) file for details.
 ---
 
 **HackerX Organization** - Open Source Cybersecurity Tools
+
+## License
+
+Licensed under the [HackerX License](./LICENSE). Redistributions must retain copyright,
+license text, and [NOTICE](./NOTICE) attribution per the license terms.
