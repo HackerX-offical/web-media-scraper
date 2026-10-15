@@ -15,7 +15,7 @@ Authorized web archiving needs filtered image/video extraction without UI chrome
 ## Install
 
 ```bash
-git clone https://github.com/HackerX-offical/web-media-scraper.git
+git clone https://github.com/HackerX-official/web-media-scraper.git
 cd web-media-scraper
 ./setup.sh
 ```

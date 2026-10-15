@@ -25,7 +25,7 @@ Thank you for your interest in contributing to the Web Media Scraper project! Th
 
 ```bash
 # Clone your fork
-git clone https://github.com/HackerX-offical/web-media-scraper.git
+git clone https://github.com/HackerX-official/web-media-scraper.git
 cd web-media-scraper
 
 # Set up virtual environment
